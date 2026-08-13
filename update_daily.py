@@ -37,7 +37,7 @@ def bj_now():
 
 def run(cmd, **kw):
     print("+", " ".join(cmd) if isinstance(cmd, list) else cmd)
-    return subprocess.run(cmd, cwd=REPO_DIR, **kw)
+    return subprocess.run(cmd, cwd=REPO_DIR, capture_output=True, **kw)
 
 def main():
     token = get_token()
