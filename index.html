@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南方电网动态监测 · csg-power-daily3</title>
+<style>
+  :root{
+    --bg:#0c1117; --panel:#141c26; --panel2:#1b2531; --line:#26323f;
+    --txt:#e6edf3; --dim:#9fb0c0; --muted:#6b7c8d;
+    --accent:#23d18b; --accent2:#36a3ff; --warn:#ffb454; --red:#ff6b6b;
+    --chip:#1d2a38;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.65;font-size:15px}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  header.hero{background:linear-gradient(135deg,#0e2a22 0%,#0c1117 55%,#0c1622 100%);
+    border-bottom:1px solid var(--line);padding:34px 0 26px}
+  .brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    background:radial-gradient(circle at 30% 30%,#23d18b,#0f7a55);font-size:22px;font-weight:800;color:#04130d}
+  h1{font-size:26px;margin:0;letter-spacing:.5px}
+  .sub{color:var(--dim);margin-top:6px;font-size:14px}
+  .meta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+  .pill{background:var(--chip);border:1px solid var(--line);color:var(--dim);
+    padding:5px 12px;border-radius:999px;font-size:12.5px}
+  .pill b{color:var(--accent)}
+  nav.toc{position:sticky;top:0;z-index:20;background:rgba(12,17,23,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 0}
+  nav.toc .wrap{display:flex;gap:8px;flex-wrap:wrap}
+  nav.toc a{color:var(--dim);font-size:13.5px;padding:6px 12px;border-radius:8px;border:1px solid transparent}
+  nav.toc a:hover{background:var(--panel2);color:var(--txt);text-decoration:none}
+  section{padding:30px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:21px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .tag{font-size:11px;background:var(--accent);color:#04130d;padding:2px 8px;border-radius:6px;font-weight:700}
+  .lead{color:var(--dim);margin:0 0 18px;font-size:14px}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:880px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card h3{margin:0 0 8px;font-size:16px}
+  .card p{margin:6px 0;color:var(--dim);font-size:13.5px}
+  .orgtree{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:14px}
+  .orgtree ul{list-style:none;padding-left:18px;margin:6px 0;border-left:1px dashed var(--line)}
+  .orgtree>ul{border-left:none;padding-left:0}
+  .orgtree li{margin:5px 0;position:relative}
+  .orgtree .unit{color:var(--txt)}
+  .orgtree .note{color:var(--muted);font-size:12.5px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .tab{cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--dim);
+    padding:7px 13px;border-radius:999px;font-size:13px}
+  .tab.active{background:var(--accent);color:#04130d;border-color:var(--accent);font-weight:700}
+  .domain{display:none}
+  .domain.active{display:block}
+  .kv{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;font-size:13.5px;margin-top:6px}
+  .kv .k{color:var(--accent);font-weight:600}
+  .kv .v{color:var(--dim)}
+  .supp{color:var(--txt)}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .chip{background:var(--chip);border:1px solid var(--line);color:var(--dim);font-size:12px;padding:3px 9px;border-radius:6px}
+  .timeline{position:relative;margin-top:8px}
+  .tl{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .tl:last-child{border-bottom:none}
+  .tl .date{color:var(--accent);font-weight:700;font-size:13px;white-space:nowrap}
+  .tl .body{font-size:14px}
+  .tl .body .t{color:var(--txt);font-weight:600}
+  .tl .body .d{color:var(--dim);font-size:13px;margin-top:2px}
+  .badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+  .b-ok{background:#10361f;color:var(--accent);border:1px solid #1c5e34}
+  .b-guess{background:#3a2e12;color:var(--warn);border:1px solid #5e4a1c}
+  .dailyItem{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent2);
+    border-radius:10px;padding:12px 14px;margin-bottom:10px}
+  .dailyItem .dh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+  .dailyItem .dt{font-size:12.5px;color:var(--muted)}
+  .dailyItem .dom{font-size:11px;background:var(--chip);border:1px solid var(--line);color:var(--accent);padding:2px 8px;border-radius:6px}
+  .dailyItem .ti{margin:6px 0 2px;font-weight:600;color:var(--txt)}
+  .dailyItem .su{color:var(--dim);font-size:13px}
+  .dayhead{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .stat{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+  .stat .s{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:120px}
+  .stat .s .n{font-size:22px;font-weight:800;color:var(--accent)}
+  .stat .s .l{font-size:12px;color:var(--muted)}
+  footer{padding:26px 0 50px;color:var(--muted);font-size:12.5px}
+  footer a{color:var(--dim)}
+  .disc{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--muted);font-size:12.5px;margin-top:10px}
+  .srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+  .srcgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--dim);font-size:13px}
+  .srcgrid a:hover{color:var(--txt);border-color:var(--accent)}
+  .srcgrid a b{color:var(--txt);display:block;margin-bottom:2px}
+  .loading{color:var(--muted);font-size:13px;padding:10px 0}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">南</div>
+      <div>
+        <h1>南方电网动态监测 · csg-power-daily3</h1>
+        <div class="sub">组织架构 · 8 大领域供应商生态 · 近期动态 · 未来方向 — 联网检索，每日更新</div>
+      </div>
+    </div>
+    <div class="meta">
+      <span class="pill">站点更新：<b id="siteUpdated">2026-08-13</b></span>
+      <span class="pill">覆盖单位：<b>总部 + 5 省网 + 2 市局 + 科研院/数字集团/储能/供应链/能源院</b></span>
+      <span class="pill">监测领域：<b>电能质量·电力电子·智能电网·低压智能台区·配电网·服务类·物资工具类·应急工具类</b></span>
+      <span class="pill">数据口径：<b>近 3 年（2023–2026）</b></span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#overview">体系概览</a>
+    <a href="#org">组织架构</a>
+    <a href="#supply">供应商生态</a>
+    <a href="#recent">近期动态</a>
+    <a href="#future">未来方向</a>
+    <a href="#daily">每日动态</a>
+    <a href="#sources">数据来源</a>
+  </div>
+</nav>
+
+<!-- ============ 体系概览 ============ -->
+<section id="overview">
+  <div class="wrap">
+    <h2><span class="tag">01</span>体系概览</h2>
+    <p class="lead">中国南方电网有限责任公司（CSG），2002-12-29 成立，国务院国资委直管的国有重要骨干企业，总部位于广州；负责粤、桂、滇、黔、琼五省区及港澳电网的投资、建设与运营。以输配电为核心，协同新兴业务、国际业务、产业金融、共享服务四大战略单元。</p>
+    <div class="stat">
+      <div class="s"><div class="n">5</div><div class="l">省级电网公司</div></div>
+      <div class="s"><div class="n">2</div><div class="l">直属/单列市局（广深）</div></div>
+      <div class="s"><div class="n">26</div><div class="l">二级分子公司</div></div>
+      <div class="s"><div class="n">1800亿</div><div class="l">2026 固投（连续五年新高）</div></div>
+      <div class="s"><div class="n">≥506亿</div><div class="l">2026 设备更新投资</div></div>
+    </div>
+    <div class="disc">
+      说明：本页为"知识库 + 动态监测"复合站点。静态知识（组织架构、供应商生态、战略方向）由联网检索整理并周期性复核；<b>「每日动态」</b>版块每日由助手联网检索南方电网官网及招投标平台后追加，数据来源于 <a href="https://www.csg.cn" target="_blank">南方电网官网</a>、<a href="https://www.bidding.csg.cn" target="_blank">南方电网供应链统一服务平台</a> 等公开渠道，附原始链接。
+    </div>
+  </div>
+</section>
+
+<!-- ============ 组织架构 ============ -->
+<section id="org">
+  <div class="wrap">
+    <h2><span class="tag">02</span>组织架构体系</h2>
+    <p class="lead">以下层级以最新公开信息整理。广州供电局自 2020 年起按广东电网分公司体制运作（非总部直属）；深圳供电局为南方电网直接全资子公司。</p>
+    <div class="orgtree">
+      <ul>
+        <li><span class="unit">中国南方电网有限责任公司（总部·广州）</span> <span class="note">— 国资委直管，21 个职能部门 + 南方总调</span>
+          <ul>
+            <li><span class="unit">五大省级电网（全资子公司）</span> <span class="note">— 广东、广西、云南、贵州、海南电网公司</span>
+              <ul>
+                <li><span class="unit">广东电网有限责任公司</span> <span class="note">— 下属 <a href="https://www.baike.com/wikiid/7540182664839872564" target="_blank">广州供电局</a>（分公司体制）</span></li>
+              </ul>
+            </li>
+            <li><span class="unit">深圳供电局有限公司</span> <span class="note">— 南方电网直接全资子公司（非广东电网下属）</span></li>
+            <li><span class="unit">超高压输电公司</span> <span class="note">— 西电东送骨干，分公司</span></li>
+            <li><span class="unit">数字电网集团有限公司</span> <span class="note">— 数字化转型主力军，控股南网数研院</span></li>
+            <li><span class="unit">南方电网储能股份有限公司（600995）</span> <span class="note">— 原文山电力，2022-09 更名；抽蓄+新型储能，调峰调频已并入</span></li>
+            <li><span class="unit">供应链集团</span> <span class="note">— 运营电子采购交易平台 <a href="https://www.bidding.csg.cn" target="_blank">ecsg / bidding.csg.cn</a></span></li>
+            <li><span class="unit">能源发展研究院（能源院）</span> <span class="note">— 南网智库，战略/政策/规划研究</span></li>
+            <li><span class="unit">控股子公司</span>
+              <ul>
+                <li><span class="unit">南方电网科学研究院（南网科研院）</span> <span class="note">— "中央研究院"：大电网安全、柔性直流、电网仿真、智能配用电、网络安全</span> <a href="http://www.sepri.csg.cn/" target="_blank">sepric.csg.cn</a></li>
+                <li><span class="unit">财务公司 / 鼎和保险 / 南网能源 / 广州电力交易中心</span></li>
+              </ul>
+            </li>
+            <li><span class="unit">其他全资子公司</span> <span class="note">— 资本控股、国际公司、产业投资集团、鼎元资产等</span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="card"><h3>南网科研院 · sepric.csg.cn</h3><p>大电网安全稳定、特高压/柔性直流、电网仿真、智能配用电、网络安全、高压检测、防灾减灾。</p><a href="http://www.sepri.csg.cn/" target="_blank">官网 ↗</a></div>
+      <div class="card"><h3>数字电网集团</h3><p>数字电网/运营/服务/产业，控股南网数研院，承接信息化、人工智能、网安等内部业务。</p><a href="https://zhaopin.csg.cn/" target="_blank">招聘站 ↗</a></div>
+      <div class="card"><h3>南网储能 · 600995</h3><p>抽水蓄能、调峰水电、新型储能；原调峰调频资产已注入。</p><a href="http://www.es.csg.cn" target="_blank">官网 ↗</a></div>
+      <div class="card"><h3>供应链集团</h3><p>运营南方电网电子采购交易平台，网级采购集中度 37%→95%（2026-01 国资委对标 A 级）。</p><a href="https://www.bidding.csg.cn" target="_blank">招标平台 ↗</a></div>
+      <div class="card"><h3>能源院 · nyy.csg.cn</h3><p>南网智库，能源战略/政策/规划/改革与财务研究。</p><a href="http://nyy.csg.cn/lx/" target="_blank">官网 ↗</a></div>
+      <div class="card"><h3>总部职能部门</h3><p>战略规划部、生产技术部、市场营销部、供应链管理部（央企首家由"物资部"改设）、数字化部等。</p><a href="http://www.csg.cn/" target="_blank">官网 ↗</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 供应商生态 ============ -->
+<section id="supply">
+  <div class="wrap">
+    <h2><span class="tag">03</span>8 大领域供应商生态（近 3 年招投标）</h2>
+    <p class="lead">数据以南网供应链统一服务平台中标公告为主，辅以上市公司公告与券商统计。〔公开数据〕=有明确金额；〔定性〕=公开统计缺失。南网 2025 固投 1750 亿、2026 固投 1800 亿，连续五年新高。</p>
+    <div class="tabs" id="domainTabs">
+      <span class="tab active" data-d="d1">电能质量</span>
+      <span class="tab" data-d="d2">电力电子</span>
+      <span class="tab" data-d="d3">智能电网</span>
+      <span class="tab" data-d="d4">低压智能台区</span>
+      <span class="tab" data-d="d5">配电网</span>
+      <span class="tab" data-d="d6">服务类</span>
+      <span class="tab" data-d="d7">物资工具类</span>
+      <span class="tab" data-d="d8">应急工具类</span>
+    </div>
+
+    <div class="domain active" id="d1">
+      <div class="card">
+        <h3>电能质量</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">南网自有：<b>南方电网电力科技股份</b>（低压治理绝对主导）；配套民企：广州宇阳、广州奔流、浙江大荣、杭州得诚、中宝电气；央企系：国电南瑞南京控制、东方电子、威胜信息。青岛鼎信因 2024 质量事件被罚后基本退出。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔定性+局部公开〕品类高度细化（低压SVG、UPQC、串联型三相不平衡治理、中/低压自动调压器、10kV串补、电能质量监测）；2026 年首次成体系框招，由"配网过载/低电压动态清零"任务驱动。全网口径金额未公开。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://cxwt.sc.csg.cn/zbhxrgs/1200430635.jhtml" target="_blank">广东电网2026低压智能电容器/10kV柱上无功补偿/电压监测仪/低压SVG框招</a>；<a href="https://www.bidding.csg.cn/zbhxrgs/1200430643.jhtml" target="_blank">2026低压调压器/三相不平衡/UPQC框招</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">单价型框架、按 50%/30%/20% 三档份额切分，需通过年度资格预审+送样检测。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d2">
+      <div class="card">
+        <h3>电力电子</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">换流阀四强：<b>许继、常州博瑞（南网系）、西安西电、特变电工新疆新能源</b>；直流控保由<b>南瑞继保</b>独占；柔直变压器：特变沈变、山东电工、天威保变、西电变压器。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔公开数据〕藏东南—粤港澳±800kV 受端换流站直流主设备专项 <b>51.84 亿元 / 12类27包 / 24家</b>，柔直换流阀 4 包 23.92 亿（占46.1%）；特变、西电、南瑞、许继、山东电工、天威、平高 7 大品牌占 <b>92.3%</b>。2024 广东天河棠下柔直背靠背：许继中标 4.68 亿（6.5kV IGCT 换流阀首次高压直流应用）。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://cxwt.sc.csg.cn/zbhxrgs/1200418187.jhtml" target="_blank">藏东南—粤港澳直流主设备专项</a>；<a href="https://m.bjx.com.cn/mnews/20241211/1416043.shtml" target="_blank">天河棠下柔直背靠背</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">工程专项招标（非框架），门槛为同电压等级工程业绩+型式试验，事实上封闭在 6–8 家。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d3">
+      <div class="card">
+        <h3>智能电网（调度自动化 / 智能变电站 / 状态监测）</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp"><b>南瑞继保、四方继保、国电南瑞控制、国电南自、许继</b>五强稳定；二线：金智科技、中元华电、东方电子、山大电力、山东科汇；网安：启明星辰、天融信、深信服、迪普、南瑞信通；南网数字电网科技/数据平台与安全公司份额上升。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔公开数据〕2025 主网保护、厂站自动化、安防及备自投第二批 <b>7.09 亿元、30 家中标</b>，南瑞继保 1.77 亿居首、四方 1.60 亿；较第一批 6 家新进、8 家退出，洗牌明显。同期推出"电力开源物联版"专项（国产电鸿/开源物联 OS 适配）。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://www.bidding.csg.cn/ggxx/1200420350.jhtml" target="_blank">2025 主网保护等第二批</a>；<a href="https://cxwt.sc.csg.cn/zbhxrgs/1200417802.jhtml" target="_blank">电力开源物联版专项</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">二次设备 CR5 约六成；新增"安全可控"品类资格预审门槛。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d4">
+      <div class="card">
+        <h3>低压智能台区</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">计量与终端：<b>威胜（集团+信息）、三星医疗、华立、林洋、炬华、海兴、友讯达、万胜、东方电子、许继仪表</b>；低压开关：良信、泰永长征、天正、正超；南网系数字电网科技大量自供+委托代工（拓维、海兴、晨泰）。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔公开数据〕2024 计量产品累计招标 <b>88.4 亿元，同比+93%</b>（第二批 44.7 亿，+64%）；2025 第一批友讯达 1.61 亿；2026 第一批威胜集团 1.99 亿+威胜信息 2.33 亿，配电智能网关框招威胜信息 7816 万。终端从"整机采购"转向"核心板/模组代工+南网品牌"。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://www.bidding.csg.cn/zbhxrgs/1200428046.jhtml" target="_blank">2026 计量设备第一批</a>；<a href="https://www.bidding.csg.cn/ggxx/1200402005.jhtml" target="_blank">配电智能网关框招</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">计量品类单价型框架，份额集中头部；代工模式扩大。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d5">
+      <div class="card">
+        <h3>配电网</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp"><b>北京科锐、三星医疗、双杰电气、森源电气、特锐德、正超电气、金晖隆、中鹏电气、白云电器、思源、四方</b>（配自终端）；广东本地厂商在开关柜/环网柜品类份额突出。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔公开数据〕2024 第一批 57.8 亿（22 品类）→ 2025 第一批 <b>54.38 亿元、175 标包、13 品类、68 家中标</b>（新进 25/退出 26）；单包均值 3107 万、最大 8275 万。2025 第二批森源电气单家 2.67 亿；双杰 2025 南网配网超 2.7 亿；三星医疗 2026 第一批 3.21 亿。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://www.bidding.csg.cn/zbhxrgs/1200434376.jhtml" target="_blank">2025 配网第一批</a>；<a href="https://finance.sina.com.cn/stock/aigc/zdht/2026-02-10/doc-inhmitaa4454359.shtml" target="_blank">2025 第二批公示</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">"一二次融合成套""安全可控"需专项资格预审，按省/全网分包给份额；洗牌率超 35%。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d6">
+      <div class="card">
+        <h3>服务类</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">信息化开发：远光软件、爱朗格瑞、尚博信；运维/平台：南网数字电网集团、南网人工智能科技、数字平台科技（内部承接）；设计咨询：中能建广东院、南网科研院、各省电力设计院；运维外包：云南南天、中通服、博纳信息。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔定性为主〕多为下浮率/费率竞标，框架期 1–2 年，<b>内部化率高</b>，公开总额缺失。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://www.bidding.csg.cn/zbgg/1200420986.jhtml" target="_blank">信息化开发类</a>；<a href="https://www.bidding.csg.cn/zbgg/1200409289.jhtml" target="_blank">运维服务类</a>；<a href="https://www.bidding.csg.cn/zbgg/1200409366.jhtml" target="_blank">设计咨询类</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">框架协议+下浮率，内部单位优先。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d7">
+      <div class="card">
+        <h3>物资工具类</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">无人机及机巢：<b>南网电力科技、南网数字电网科技</b>为主；民企：中科智云、中科云图、纵横大鹏、优飞、煜邦电力、杜克科技、数字绿土、红相科技、翼景；国网智能科技亦跨网中标机巢（两网生态部分互通）。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔定性〕2025 无人机设备框招已开到<b>第三批</b>（批次频度上升），从整机采购转向"机巢+反制+激光雷达+数据处理"体系化采购；金额未公开。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://www.bidding.csg.cn/ggxx/1200417375.jhtml" target="_blank">无人机设备框招</a>；<a href="https://cxwt.sc.csg.cn/zbhxrgs/1200414178.jhtml" target="_blank">机巢专项</a>；<a href="https://cxwt.sc.csg.cn/zbhxrgs/1200412948.jhtml" target="_blank">激光雷达/数据处理</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">体系化、软硬件一体采购；内部单位牵头。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="domain" id="d8">
+      <div class="card">
+        <h3>应急工具类</h3>
+        <div class="kv">
+          <div class="k">主流供应商</div>
+          <div class="v supp">发电车/电源车：福建泰豪海德馨等专用车企；应急接入装置：武汉里得电力；应急装备：珠海天沃；应急科研：南网科研院、高校（湖南大学、中科大）承接。</div>
+          <div class="k">招投标趋势</div>
+          <div class="v">〔定性〕多为省级/地市局分散专项采购，<b>无网级大框架</b>；金额未公开。</div>
+          <div class="k">典型批次</div>
+          <div class="v"><a href="https://cxwt.sc.csg.cn/zbhxrgs/1200424782.jhtml" target="_blank">应急装备专项</a>；<a href="https://www.bidding.csg.cn/ggxx/1200413117.jhtml" target="_blank">应急接入装置</a>；<a href="https://www.bidding.csg.cn/zbgg/1200405689.jhtml" target="_blank">发电车采购</a>；<a href="https://cxwt.sc.csg.cn/zbhxrgs/1200421192.jhtml" target="_blank">应急科研</a></div>
+          <div class="k">入围特点</div>
+          <div class="v">分散、小额、属地化；建议以"批次数+中标人清单"作替代监测指标。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disc" style="margin-top:16px">
+      <b>整体观察：</b>① 集中度：主网/直流极高（7 大品牌 92.3%），二次设备 CR5 约六成，配网最分散（68 家分 54 亿）但单批洗牌率超 35%；② <b>南网系内循环强化</b>：南网电力科技、数字电网科技、博瑞电力、科研院在电能质量、台区终端、无人机、信息化中大量直接中标或委托代工；③ <b>国产化与安全可控</b>：新增"安全可控"品类资格预审、"电力开源物联版"专项、禁用美光等外资器件；④ <b>合规风险抬升</b>：2025-08 起施行《供应商不良行为处理管理细则(2025版)》12 分制黑名单、硬件特征码反串标；鼎信通讯被罚后预计三年减收 11.55 亿。
+    </div>
+  </div>
+</section>
+
+<!-- ============ 近期动态 ============ -->
+<section id="recent">
+  <div class="wrap">
+    <h2><span class="tag">04</span>近期重大动作（2025 — 2026.8）</h2>
+    <p class="lead">以下为联网检索到的已确认公开动态（✅），按领域与日期排列，附原始来源。</p>
+    <div class="timeline">
+      <div class="tl"><div class="date">2026-07-17</div><div class="body"><div class="t">"大瓦特·云睿"配电网规划智能体入选 WAIC 十大"镇馆之宝"<span class="badge b-ok">AI</span></div><div class="d">唯一央企项目；"大瓦特-多模态2.0"通过信通院工业大模型评测。 <a href="https://www.stdaily.com/web/gdxw/2026-07/17/content_549211.html" target="_blank">科技日报 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2026-06-19</div><div class="body"><div class="t">开放原子"电鸿"开源社区链接超 625 家伙伴、2260 款终端<span class="badge b-ok">数字化</span></div><div class="d">国产电力物联 OS 生态持续扩张。 <a href="https://csg.cn/epaper/epaper/nfdwb/html/2026-06/19/content_1840.htm" target="_blank">南网报 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2026-05-19</div><div class="body"><div class="t">南网科研院发布国内首款"AI+专业仿真"电力装备数字孪生软件 TRSimTwin<span class="badge b-ok">科研</span></div><div class="d">通过鉴定达国际领先水平。 <a href="https://csg.cn/xwzx/2026/2026gsyw/202605/t20260519_355258.html" target="_blank">南网官网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2026-05-01</div><div class="body"><div class="t">数字中国峰会南网专场发布 8 项成果<span class="badge b-ok">数字化</span></div><div class="d">柔性灰度监测、储能 AI 分析平台等。 <a href="https://csg.cn/xwzx/2026/2026yxcz/202605/t20260501_354859.html" target="_blank">南网官网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2026-01</div><div class="body"><div class="t">现代数字供应链建成，网级采购集中度 37%→95%<span class="badge b-ok">供应链</span></div><div class="d">获国资委对标 A 级（央企第二）；2026 固投 1800 亿、设备更新≥506 亿。 <a href="https://csg.cn/epaper/epaper/nfdwb/html/2026-01/13/content_108.htm" target="_blank">南网报 ↗</a> <a href="https://news.sciencenet.cn/htmlnews/2026/1/559076.shtm" target="_blank">科学网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-12-15</div><div class="body"><div class="t">海南 500 千伏主网架全面投产<span class="badge b-ok">重大工程</span></div><div class="d">海南迈入超高压时代；"十五五"拟再投 460 亿元。 <a href="http://hq.xinhuanet.com/20251216/386db011a20d4eb090f2446e6878131d/c.html" target="_blank">新华网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-12</div><div class="body"><div class="t">"天权"自主可控电力求解器入选"央企十大国之重器"<span class="badge b-ok">自主可控</span></div><div class="d">性能超国际顶尖 14%。 <a href="https://csg.cn/xwzx/2025/2025gsyw/202601/t20260109_352180.html" target="_blank">南网官网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-12-16</div><div class="body"><div class="t">绿电绿证交易量超 4500 亿千瓦时<span class="badge b-ok">绿电</span></div><div class="d">超前四年总和 3 倍，占全国绿证交易超六成。 <a href="https://csg.cn/xwzx/2025/2025gsyw/202512/t20251216_351733.html" target="_blank">南网官网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-09</div><div class="body"><div class="t">建成国内最大规模 V2G 示范项目<span class="badge b-ok">车网互动</span></div><div class="d">广州诞生全国首张居民个人 V2G 结算单；全年超 10 万辆次电动汽车参与跨省区车网互动。 <a href="https://gu.qq.com/resources/shy/news/detail-v2/index.html?id=SN20251201165553978961af" target="_blank">腾讯证券 ↗</a> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-03/20/content_685.htm" target="_blank">南网报 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2026 初</div><div class="body"><div class="t">深圳全国首个"虚拟电厂小镇"投运<span class="badge b-ok">虚拟电厂</span></div><div class="d">全网虚拟电厂超 110 家、聚合容量约 1800 万千瓦。 <a href="https://www.ce.cn/xwzx/gnsz/gdxw/202608/t20260813_3145635.shtml" target="_blank">中国经济网 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-06-28</div><div class="body"><div class="t">南方区域电力现货市场进入连续结算试运行<span class="badge b-ok">电力市场</span></div><div class="d">国内首个多省区统一出清现货市场。 <a href="https://csg.cn/epaper/epaper/nfdwb/html/2026-01/15/content_131.htm" target="_blank">南网报 ↗</a></div></div></div>
+      <div class="tl"><div class="date">2025-2026</div><div class="body"><div class="t">阳江三山岛海上风电柔直输电工程加速推进<span class="badge b-ok">新型电力系统</span></div><div class="d">±500kV 海陆一体，计划 2026-10 投产。 <a href="http://www.guangdong.xinhua.org/20250408/7576719cf85e43f08e30c4e92ce0da96/c.html" target="_blank">新华网 ↗</a></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 未来方向 ============ -->
+<section id="future">
+  <div class="wrap">
+    <h2><span class="tag">05</span>未来战略方向</h2>
+    <p class="lead">✅ 已确认（官方表述）与 🔮 推测展望分列。</p>
+    <div class="grid g2">
+      <div class="card"><h3>✅ "十五五"主线：全面智能化</h3><p>以全面智能化统领，打造"AI+能源"创新高地；推进 343 个高价值 AI 场景，迭代"大瓦特"轻量化/端侧化。</p></div>
+      <div class="card"><h3>✅ 电碳算协同</h3><p>建强"算力底座—行业大模型—场景智能体—现场终端"全栈闭环，牵头电碳算国际标准，抢占绿色算力。</p></div>
+      <div class="card"><h3>✅ 现代电力市场</h3><p>落实"五统一、一开放"，2026 推动南方现货市场转正式运行，探索容量市场、辅助服务与现货联合出清，探索澜湄共同电力市场。</p></div>
+      <div class="card"><h3>✅ 新型电力系统</h3><p>锚定 2030 年前基本建成；海上风电、抽蓄（"3 个一千万"）、新型储能（装机超 1500 万千瓦）协同布局。</p></div>
+      <div class="card"><h3>✅ 供应链与出海</h3><p>"五化一型"路径，打造绿色智能韧性供应链；以技术/标准/装备"走出去"。</p></div>
+      <div class="card"><h3>🔮 推测展望</h3><p>藏粤直流、湘粤背靠背联网（2027 投运）强化西电东送与两网互济；电鸿向发电/核电/工业互联网跨行业延伸；"以电强算、以算促电"或成南网向"能源+算力+数据"平台转型的增长曲线。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 每日动态 ============ -->
+<section id="daily">
+  <div class="wrap">
+    <div class="dayhead">
+      <div>
+        <h2><span class="tag">06</span>每日动态</h2>
+        <p class="lead">由助手每日联网检索南方电网官网及招投标平台后追加。下方从 <code>daily.json</code> 实时加载。</p>
+      </div>
+      <span class="pill">加载于 <b id="loadTime">—</b></span>
+    </div>
+    <div id="dailyList"><div class="loading">正在加载每日动态…</div></div>
+  </div>
+</section>
+
+<!-- ============ 数据来源 ============ -->
+<section id="sources">
+  <div class="wrap">
+    <h2><span class="tag">07</span>数据来源与检索入口</h2>
+    <p class="lead">本知识库所有结论均附原始链接；以下为常用权威检索入口，便于自行核验与深挖。</p>
+    <div class="srcgrid">
+      <a href="https://www.csg.cn" target="_blank"><b>南方电网官网</b>新闻/公告主站</a>
+      <a href="https://www.bidding.csg.cn" target="_blank"><b>南方电网供应链统一服务平台</b>招标/中标公告</a>
+      <a href="https://ecsg.com.cn" target="_blank"><b>南方电网电子商务系统</b>采购交易</a>
+      <a href="http://www.sepri.csg.cn/" target="_blank"><b>南网科研院</b>科研成果</a>
+      <a href="http://nyy.csg.cn/" target="_blank"><b>南网能源院</b>战略研究</a>
+      <a href="http://www.es.csg.cn" target="_blank"><b>南网储能</b>600995 公告</a>
+      <a href="https://www.baike.com/wikiid/7239684497352097804" target="_blank"><b>南方电网（百科）</b>组织架构</a>
+      <a href="https://www.ce.cn" target="_blank"><b>中国经济网</b>能源电力</a>
+      <a href="https://www.bjx.com.cn" target="_blank"><b>北极星电力网</b>招投标/动态</a>
+      <a href="https://www.stdaily.com" target="_blank"><b>科技日报</b>科技发布</a>
+      <a href="https://csg.cn/epaper/epaper/nfdwb/" target="_blank"><b>南方电网报</b>电子报</a>
+      <a href="https://news.sciencenet.cn" target="_blank"><b>科学网</b>南网投资数据</a>
+    </div>
+    <div class="disc">
+      <b>更新机制：</b>本仓库由 WorkBuddy 助手维护，每日自动联网检索并追加「每日动态」；静态知识库（组织架构/供应商生态/战略方向）随重大变化周期复核。仓库：<a href="https://github.com/hxj0515/csg-power-daily3" target="_blank">github.com/hxj0515/csg-power-daily3</a>。
+      <br><b>免责声明：</b>本页内容基于公开渠道整理，仅供研究参考，不构成任何投资、投标或决策建议；招投标金额与中标信息以官方平台最终公告为准。部分"推测展望"非南网正式承诺。
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    南方电网动态监测 · csg-power-daily3 ｜ 联网检索整理，每日更新 ｜ 数据口径 2023–2026 ｜ 最后构建 2026-08-13
+  </div>
+</footer>
+
+<script>
+  // 领域切换
+  document.querySelectorAll('#domainTabs .tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('#domainTabs .tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.domain').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById(t.dataset.d).classList.add('active');
+    });
+  });
+
+  // 每日动态加载
+  document.getElementById('loadTime').textContent = new Date().toLocaleString('zh-CN');
+  const FALLBACK = {
+    updated:"2026-08-13",
+    entries:[
+      {date:"2026-08-13", note:"建站首期：整合组织架构、8大领域供应商生态、2025-2026近期动态与未来方向。", items:[
+        {domain:"低压智能台区",title:"广东电网2026年低压智能电容器/10kV柱上无功补偿/电压监测仪/低压SVG框招",url:"https://cxwt.sc.csg.cn/zbhxrgs/1200430635.jhtml",summary:"配网过载/低电压动态清零任务驱动，电能质量品类首次成体系框招。"},
+        {domain:"配电网",title:"2026年第一批配网设备招标：三星医疗中标3.21亿",url:"https://www.bidding.csg.cn/zbhxrgs/1200434376.jhtml",summary:"配网品类集中度提升，单包均值约3107万。"},
+        {domain:"智能电网",title:"南网科研院发布TRSimTwin电力装备数字孪生软件",url:"https://csg.cn/xwzx/2026/2026gsyw/202605/t20260519_355258.html",summary:"国内首款AI+专业仿真数字孪生，国际领先。"},
+        {domain:"AI",title:"大瓦特·云睿配电网规划智能体入选WAIC镇馆之宝",url:"https://www.stdaily.com/web/gdxw/2026-07/17/content_549211.html",summary:"唯一央企项目，多模态2.0通过信通院评测。"},
+        {domain:"虚拟电厂",title:"深圳全国首个虚拟电厂小镇投运",url:"https://www.ce.cn/xwzx/gnsz/gdxw/202608/t20260813_3145635.shtml",summary:"全网虚拟电厂超110家、聚合容量约1800万千瓦。"},
+        {domain:"供应链",title:"现代数字供应链建成，网级采购集中度37%→95%",url:"https://csg.cn/epaper/epaper/nfdwb/html/2026-01/13/content_108.htm",summary:"国资委对标A级（央企第二），2026固投1800亿。"}
+      ]}
+    ]
+  };
+  function render(data){
+    const box=document.getElementById('dailyList'); box.innerHTML='';
+    (data.entries||[]).forEach(e=>{
+      const head=document.createElement('div');
+      head.style.cssText='display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin:18px 0 10px';
+      head.innerHTML=`<div style="font-weight:700;color:var(--accent);font-size:15px">📅 ${e.date}</div><div style="color:var(--muted);font-size:12.5px">${e.note||''}</div>`;
+      box.appendChild(head);
+      (e.items||[]).forEach(it=>{
+        const el=document.createElement('div'); el.className='dailyItem';
+        el.innerHTML=`<div class="dh"><span class="dom">${it.domain||'动态'}</span><span class="dt">${e.date}</span></div>
+          <div class="ti"><a href="${it.url}" target="_blank">${it.title}</a></div>
+          <div class="su">${it.summary||''}</div>`;
+        box.appendChild(el);
+      });
+    });
+    if(!data.entries||!data.entries.length) box.innerHTML='<div class="loading">暂无每日动态。</div>';
+  }
+  fetch('daily.json?t='+Date.now(),{cache:'no-store'})
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(render)
+    .catch(()=>render(FALLBACK));
+</script>
+</body>
+</html>
