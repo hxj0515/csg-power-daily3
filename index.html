@@ -89,6 +89,17 @@
   footer{padding:26px 0 50px;color:var(--muted);font-size:12.5px}
   footer a{color:var(--dim)}
   .disc{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--muted);font-size:12.5px;margin-top:10px}
+  .tblwrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:14px 0;background:var(--panel)}
+  .tbl{border-collapse:collapse;width:100%;font-size:13px}
+  .tbl caption{caption-side:top;text-align:left;color:var(--muted);font-size:12.5px;padding:10px 12px 0}
+  .tbl th{background:var(--panel2);color:var(--accent2);text-align:left;padding:9px 11px;font-weight:700;font-size:12.5px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .tbl td{padding:8px 11px;border-bottom:1px solid var(--line);color:var(--dim);vertical-align:top;line-height:1.6}
+  .tbl tr:nth-child(even) td{background:rgba(27,37,49,.55)}
+  .tbl tr:hover td{background:#22303f}
+  .tbl td b{color:var(--txt);font-weight:600}
+  .tbl .num{color:var(--accent);font-weight:700;white-space:nowrap}
+  .tbl .tagpub{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:5px;background:#10361f;color:var(--accent);border:1px solid #1c5e34}
+  .tbl .tagq{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:5px;background:#3a2e12;color:var(--warn);border:1px solid #5e4a1c}
   .srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
   .srcgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--dim);font-size:13px}
   .srcgrid a:hover{color:var(--txt);border-color:var(--accent)}
@@ -686,7 +697,24 @@
 <section id="supply">
   <div class="wrap">
     <h2><span class="tag">03</span>8 大领域供应商生态（近 3 年招投标）</h2>
-    <p class="lead">数据以南网供应链统一服务平台中标公告为主，辅以上市公司公告与券商统计。〔公开数据〕=有明确金额；〔定性〕=公开统计缺失。南网 2025 固投 1750 亿、2026 固投 1800 亿，连续五年新高。</p>
+    <p class="lead">数据以南网供应链统一服务平台中标公告为主，辅以上市公司公告与券商统计。〔公开〕=有明确金额；〔定性〕=公开统计缺失。南网 2025 固投 1750 亿、2026 固投 1800 亿，连续五年新高。下方<b>分领域 Tab</b> 为逐项详述；辅以三张互补表：<b>表 1 横向总览</b>（8 领域规模/集中度/采购模式一屏比对）、<b>表 2 供应商生态矩阵</b>（按南网系/央企系/民营龙头归类）、<b>表 3 近 3 年代表批次金额明细</b>。</p>
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 1 · 8 大领域近 3 年招投标横向总览（数据口径：2023–2026 公开中标公告与上市公司公告；〔公开〕=有明确金额，〔定性〕=公开统计缺失）</caption>
+        <thead><tr><th>领域</th><th>近 3 年规模量级（公开口径）</th><th>供应商集中度</th><th>采购模式</th><th>网级框架</th><th>数据完整度</th></tr></thead>
+        <tbody>
+          <tr><td><b>电能质量</b></td><td>〔定性〕2026 首次成体系框招，全网金额未披露</td><td>较高（南网科技主导，CR1 明显）</td><td>单价型框架（50/30/20 份额）</td><td>是（2026 起）</td><td><span class="tagq">局部</span></td></tr>
+          <tr><td><b>电力电子</b></td><td><span class="num">约 56.5 亿</span>（藏东南—粤港澳直流主设备 51.84 亿 + 天河棠下柔直 4.68 亿）</td><td>极高（7 大品牌占 92.3%）</td><td>工程专项招标</td><td>否（专项）</td><td><span class="tagpub">高</span></td></tr>
+          <tr><td><b>智能电网</b></td><td><span class="num">≥10 亿级</span>（2025 主网保护等第二批 7.09 亿；主网类累计十余亿）</td><td>高（CR5≈60%）</td><td>框架 + 专项</td><td>是</td><td><span class="tagpub">较高</span></td></tr>
+          <tr><td><b>低压智能台区</b></td><td><span class="num">约 88+ 亿</span>（2024 计量累计 88.4 亿，同比+93%；2026 一批威胜系 4.3 亿+）</td><td>高（计量头部集中）</td><td>单价型框架</td><td>是</td><td><span class="tagpub">高</span></td></tr>
+          <tr><td><b>配电网</b></td><td><span class="num">约 110+ 亿</span>（2024 一批 57.8 亿；2025 一批 54.38 亿/68 家；2023 两批单家 2–3 亿）</td><td>分散（68 家分 54 亿，洗牌率&gt;35%）</td><td>框架 + 资格预审</td><td>是</td><td><span class="tagpub">高</span></td></tr>
+          <tr><td><b>服务类</b></td><td>〔定性〕框架 1–2 年，内部化率高，公开总额缺失</td><td>中（内部单位优先）</td><td>框架 + 下浮率</td><td>是（部分）</td><td><span class="tagq">低</span></td></tr>
+          <tr><td><b>物资工具类</b></td><td>〔定性〕无人机/机巢已开至第三批，金额未披露</td><td>中（内部牵头）</td><td>体系化软硬件一体</td><td>是（部分）</td><td><span class="tagq">低</span></td></tr>
+          <tr><td><b>应急工具类</b></td><td>〔定性〕省级/地市分散专项，无网级框架</td><td>分散属地化</td><td>分散小额采购</td><td>否</td><td><span class="tagq">低</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="tabs" id="domainTabs">
       <span class="tab active" data-d="d1">电能质量</span>
       <span class="tab" data-d="d2">电力电子</span>
@@ -824,6 +852,53 @@
           <div class="v">分散、小额、属地化；建议以"批次数+中标人清单"作替代监测指标。</div>
         </div>
       </div>
+    </div>
+
+    <h3 style="margin:26px 0 4px">主要供应商生态矩阵（按主体性质归类）</h3>
+    <p class="lead">〔南网系〕= 南方电网直属/控股；〔央企系〕= 国网系或央企电工装备集团；〔民营龙头〕= 上市民企。同一厂商常跨多个领域中标。</p>
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 2 · 供应商主体 — 性质 — 主导领域 — 代表中标 / 份额</caption>
+        <thead><tr><th>供应商</th><th>性质</th><th>主导 / 强势领域</th><th>代表中标 / 份额</th></tr></thead>
+        <tbody>
+          <tr><td><b>南方电网电力科技股份</b></td><td>南网系</td><td>电能质量、低压台区、无人机</td><td>低压治理绝对主导；2024 计量入围；2026 电能质量框招牵头</td></tr>
+          <tr><td><b>南网数字电网科技（集团）</b></td><td>南网系</td><td>信息化、无人机、台区终端</td><td>大量自供 + 委托代工（拓维/海兴/晨泰）</td></tr>
+          <tr><td><b>常州博瑞（南网系）</b></td><td>南网系</td><td>电力电子（换流阀）</td><td>藏东南—粤港澳直流主设备专项</td></tr>
+          <tr><td><b>南网科研院</b></td><td>南网系</td><td>应急科研、技术中心</td><td>承接应急科研专项</td></tr>
+          <tr><td><b>国电南瑞 / 南瑞继保</b></td><td>央企系</td><td>智能电网、电力电子（直流控保）</td><td>2025 主网 1.77 亿居首；柔直控保独占</td></tr>
+          <tr><td><b>许继</b></td><td>央企系</td><td>电力电子、智能电网、计量</td><td>藏东南换流阀；天河棠下许继 4.68 亿</td></tr>
+          <tr><td><b>四方继保</b></td><td>央企系</td><td>智能电网</td><td>2025 主网 1.60 亿</td></tr>
+          <tr><td><b>特变电工 / 西安西电</b></td><td>央企系</td><td>电力电子（变压器）</td><td>藏东南专项；7 大品牌占 92.3%</td></tr>
+          <tr><td><b>威胜（集团 + 信息）</b></td><td>民营龙头</td><td>低压智能台区 / 计量</td><td>2024 计量合计 4.78 亿；2026 一批 4.3 亿+</td></tr>
+          <tr><td><b>三星医疗</b></td><td>民营龙头</td><td>计量</td><td>2024 二批 4.48 亿居首；2025 一批 2.74 亿</td></tr>
+          <tr><td><b>北京科锐 / 双杰 / 森源 / 特锐德</b></td><td>民营龙头</td><td>配电网</td><td>2023–2025 配网单家 2–3 亿</td></tr>
+          <tr><td><b>东方电子 / 林洋 / 炬华 / 海兴 / 友讯达</b></td><td>民营龙头</td><td>计量 / 智能电网</td><td>计量多批入围（林洋 2.78 亿、炬华 2.71 亿等）</td></tr>
+          <tr><td><b>中科云图 / 纵横大鹏 / 煜邦</b></td><td>民营龙头</td><td>物资工具（无人机）</td><td>无人机框招入围</td></tr>
+          <tr><td><b>福建泰豪海德馨 / 武汉里得</b></td><td>民营龙头</td><td>应急工具</td><td>发电车 / 应急接入装置专项</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:26px 0 4px">近 3 年代表性中标批次 · 金额明细</h3>
+    <p class="lead">〔公开〕有公告金额；〔未公开〕以"批次数 + 中标人清单"为替代监测指标。来源以各 Tab「典型批次」及页脚数据来源为准。</p>
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 3 · 代表性中标批次明细（2023–2026）</caption>
+        <thead><tr><th>年份</th><th>批次 / 专项</th><th>金额</th><th>头部中标人</th><th>领域</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td>配网设备第一批框架</td><td>单家：科林 2.13 亿 / 威胜能源 2.06 亿</td><td>科林电气、威胜能源</td><td>配网</td></tr>
+          <tr><td>2023</td><td>配网设备第二批框架</td><td>单家：双杰约 3.05 亿</td><td>双杰电气、无锡变压器</td><td>配网</td></tr>
+          <tr><td>2024</td><td>计量产品累计（两批）</td><td><span class="num">约 88.4 亿</span>（二批 45.54 亿）</td><td>三星医疗 4.48 亿、华立 3.72 亿、威胜系 4.78 亿</td><td>低压智能台区</td></tr>
+          <tr><td>2025</td><td>主网保护等第二批</td><td><span class="num">7.09 亿</span>（30 家）</td><td>南瑞继保 1.77 亿、四方 1.60 亿</td><td>智能电网</td></tr>
+          <tr><td>2025</td><td>配网设备第一批</td><td><span class="num">54.38 亿</span>（68 家 / 175 包）</td><td>森源、双杰、三星医疗</td><td>配网</td></tr>
+          <tr><td>2025</td><td>配网设备第二批</td><td>公示（森源单家 2.67 亿）</td><td>森源电气</td><td>配网</td></tr>
+          <tr><td>2025</td><td>计量设备第一批</td><td>三星医疗约 2.74 亿、威胜信息 1.69 亿</td><td>三星医疗、威胜信息</td><td>低压智能台区</td></tr>
+          <tr><td>2026</td><td>藏东南—粤港澳直流主设备专项</td><td><span class="num">51.84 亿</span>（24 家 / 27 包）</td><td>特变 / 西电 / 南瑞 / 许继等 7 品牌 92.3%</td><td>电力电子</td></tr>
+          <tr><td>2026</td><td>天河棠下柔直背靠背</td><td><span class="num">4.68 亿</span></td><td>许继（6.5kV IGCT 换流阀首用）</td><td>电力电子</td></tr>
+          <tr><td>2026</td><td>低压智能电容器 / SVG / 调压器框招</td><td>〔未公开〕</td><td>南网科技主导</td><td>电能质量</td></tr>
+          <tr><td>2026</td><td>计量设备第一批</td><td>威胜集团 1.99 亿 + 威胜信息 2.33 亿；网关威胜信息 7816 万</td><td>威胜系</td><td>低压智能台区</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="disc" style="margin-top:16px">
