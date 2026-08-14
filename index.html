@@ -100,6 +100,18 @@
   .tbl .num{color:var(--accent);font-weight:700;white-space:nowrap}
   .tbl .tagpub{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:5px;background:#10361f;color:var(--accent);border:1px solid #1c5e34}
   .tbl .tagq{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:5px;background:#3a2e12;color:var(--warn);border:1px solid #5e4a1c}
+  .cascade{margin:18px 0 4px}
+  .casc{display:flex;gap:10px;align-items:stretch;margin:7px 0}
+  .casc .lv{flex:0 0 86px;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:9px;font-weight:700;font-size:13px;color:#eaf2fb;padding:8px 4px;line-height:1.25}
+  .casc .c0{background:linear-gradient(135deg,#16406e,#2563a8)}
+  .casc .c1{background:linear-gradient(135deg,#14503a,#1f8a5e)}
+  .casc .c2{background:linear-gradient(135deg,#5a4e16,#a8902a)}
+  .casc .c3{background:linear-gradient(135deg,#5e2a2a,#a8492f)}
+  .casc .c4{background:linear-gradient(135deg,#3a2a5e,#6a47a8)}
+  .casc .body{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+  .casc .body b{color:var(--accent2)}
+  .casc .body span.s{display:block;margin-top:5px;color:var(--muted);font-size:11.5px;line-height:1.6}
+  .casc .body span.s a{color:var(--muted);text-decoration:underline}
   .srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
   .srcgrid a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--dim);font-size:13px}
   .srcgrid a:hover{color:var(--txt);border-color:var(--accent)}
@@ -962,7 +974,7 @@
 <section id="future">
   <div class="wrap">
     <h2><span class="tag">05</span>未来战略方向</h2>
-    <p class="lead">✅ 已确认（官方表述）与 🔮 推测展望分列。</p>
+    <p class="lead">✅ 已确认（官方表述）与 🔮 推测展望分列。下方将战略从<b>网级 → 省级 → 市级 → 县区级 → 供电所级</b>逐级穿透拆解，配「战略传导链」与三张互补表（总览 / 省级对比 / 市·县区·供电所落地案例），均附公开来源。</p>
     <div class="grid g2">
       <div class="card"><h3>✅ "十五五"主线：全面智能化</h3><p>以全面智能化统领，打造"AI+能源"创新高地；推进 343 个高价值 AI 场景，迭代"大瓦特"轻量化/端侧化。</p></div>
       <div class="card"><h3>✅ 电碳算协同</h3><p>建强"算力底座—行业大模型—场景智能体—现场终端"全栈闭环，牵头电碳算国际标准，抢占绿色算力。</p></div>
@@ -971,6 +983,58 @@
       <div class="card"><h3>✅ 供应链与出海</h3><p>"五化一型"路径，打造绿色智能韧性供应链；以技术/标准/装备"走出去"。</p></div>
       <div class="card"><h3>🔮 推测展望</h3><p>藏粤直流、湘粤背靠背联网（2027 投运）强化西电东送与两网互济；电鸿向发电/核电/工业互联网跨行业延伸；"以电强算、以算促电"或成南网向"能源+算力+数据"平台转型的增长曲线。</p></div>
     </div>
+
+    <h3 style="margin:24px 0 2px">战略传导链：从网级战略到供电所末梢</h3>
+    <p class="lead" style="margin:0 0 6px">同一套战略如何逐级"翻译"为可执行动作——上层定方向，基层出样板。</p>
+    <div class="cascade">
+      <div class="casc"><div class="lv c0">网级</div><div class="body"><b>「三个新型」统领 · 六网协同 · 五大战略单元</b>：新型能源体系 / 新型电力系统 / 新型电网一体推进；集约化·专业化·数智化·绿色化·市场化·国际化六路径；2026 固投 1800 亿、新能源装机 3.1 亿千瓦。<span class="s">来源：<a href="https://csg.cn/epaper/epaper/nfdwb/html/2026-01/20/content_140.htm" target="_blank">2026 工作会报告</a> · <a href="https://www.csg.cn/m/xwzx/nwyw/202603/t20260313_354028.html" target="_blank">战略规划工作会</a></span></div></div>
+      <div class="casc"><div class="lv c1">省级</div><div class="body"><b>「一省一策」+ 区域示范</b>：广东六电力湾区 / 广西新型电力系统全域示范 / 云南超高比例新能源 / 贵州山区数字化 / 海南自贸港海岛微网 / 深圳"世界观察中国电力的窗口"。<span class="s">来源：<a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-08/11/content_2473.htm" target="_blank">广东电网年中工作会</a> · <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-08/07/content_2445.htm" target="_blank">深圳供电局年中工作会</a> · 各省 2026 战略部署</span></div></div>
+      <div class="casc"><div class="lv c2">市级</div><div class="body"><b>超大城市立体数字电网 · 数字化供电所标准</b>：广州构网型柔直 / 深圳立体数字电网+APEC / 佛山"小数叶"+数字化供电所标准 / 中山数字电网示范 / 江门无人机智能运维。<span class="s">来源：<a href="https://www.xkb.com.cn/articleDetail/480147" target="_blank">广东电网 AI 大会</a> · <a href="https://csg.cn/xwzx/2025/2025yxcz/202501/t20250114_344793.html" target="_blank">佛山供电局</a> · <a href="https://district.ce.cn/newarea/roll/202603/t20260304_2803277.shtml" target="_blank">中国经济网</a></span></div></div>
+      <div class="casc"><div class="lv c3">县区级</div><div class="body"><b>基层数字化赋能 ·「陈村范式」减负</b>：都匀范式 1.0→3.0 全域指挥中心 / 海丰营配指挥中心业务精简 65% / 揭阳"AI+管理"试点。<span class="s">来源：<a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-06/02/content_1562.htm" target="_blank">南网报·都匀范式</a> · <a href="https://www.nfnews.com/content/LozB5AEjon.html" target="_blank">南方+·海丰</a> · <a href="https://www.nfnews.com/content/mom4nW8Q6V.html" target="_blank">南方+·揭阳</a></span></div></div>
+      <div class="casc"><div class="lv c4">供电所级</div><div class="body"><b>标准化建设 · 星级班站所 · 全能型供电所</b>：业务事项精简（流沙南 206 项）/ 数字员工（沿山供电所）/ 「一台区一网关」光伏管家 / 五星·四星供电所评定。<span class="s">来源：<a href="https://www.nfnews.com/content/mom4nW8Q6V.html" target="_blank">揭阳流沙南五星所</a> · <a href="https://csg.cn/xwzx/2025/2025yxcz/202501/t20250114_344793.html" target="_blank">佛山数字化供电所标准</a> · <a href="https://www.nfnews.com/content/LozB5AEjon.html" target="_blank">海丰试点所</a></span></div></div>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 1 · 四级战略方向总览（层级 → 锚点 → 举措 → 代表单位 → 依据）</caption>
+        <tr><th>层级</th><th>战略锚点</th><th>核心举措</th><th>代表单位</th><th>公开依据</th></tr>
+        <tr><td><b>网级</b></td><td>三个新型 + 六网协同 + 五大战略单元</td><td>六路径（集约化·专业化·数智化·绿色化·市场化·国际化）；2026 固投 1800 亿、新能源 3.1 亿千瓦</td><td>南网总部 / 超高压 / 科研院</td><td><span class="tagpub">公开</span> 2026 工作会报告</td></tr>
+        <tr><td><b>省级</b></td><td>一省一策、区域示范</td><td>广东六电力湾区 / 广西全域示范 / 云南高比例新能源 / 贵州山区数字化 / 海南海岛微网 / 深圳窗口</td><td>粤·桂·滇·黔·琼·深 6 家省级电网</td><td><span class="tagpub">公开</span> 各省 2026 年中工作会</td></tr>
+        <tr><td><b>市级</b></td><td>超大城市立体数字电网、数字化供电所标准</td><td>AI+调度 / 构网型柔直 / 电鸿物联 / 无人机运维 / 配网上台阶"六百二零"</td><td>广州·深圳·佛山·中山·江门</td><td><span class="tagpub">公开</span> 地市局报道</td></tr>
+        <tr><td><b>县区级</b></td><td>基层数字化赋能、陈村范式减负</td><td>全域指挥中心 / 营配指挥中心 / 业务事项精简 / 业技融合</td><td>都匀·海丰·揭阳 等县区局</td><td><span class="tagpub">公开</span> 南网报 / 南方+</td></tr>
+        <tr><td><b>供电所级</b></td><td>标准化建设、星级班站所、全能型供电所</td><td>业务精简 / 数字员工 / 一台区一网关 / 星级评定（五星·四星）</td><td>流沙南·甲良·沿山·梅陇 等供电所</td><td><span class="tagpub">公开</span> 揭阳 / 佛山 / 海丰</td></tr>
+      </table>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 2 · 省级电网"十五五"战略对比（含深圳单列）</caption>
+        <tr><th>单位</th><th>战略主题</th><th>关键工程 / 指标</th><th>来源</th></tr>
+        <tr><td><b>广东电网</b></td><td>六个"电力湾区"：充裕高质·坚强韧性·绿色低碳·科技领先·智慧融合·开放共享</td><td>支撑湾区总装机 1.88 亿千瓦；30 个高品质供电引领区；户均停电 &lt;0.4h；三山岛 / 藏粤 / 青粤工程；自研 AI 模型 800+；2026 建成 7 个零碳示范</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-08/11/content_2473.htm" target="_blank">广东电网年中工作会</a></td></tr>
+        <tr><td><b>深圳供电局</b></td><td>打造"世界观察中国电力的窗口"</td><td>APEC 保供电；立体数字电网；配网"六百二零"；城中村治理三年行动一年完；主网"四大提升"；2025 固投 111 亿创历史新高</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-08/07/content_2445.htm" target="_blank">深圳年中工作会</a> · <a href="https://m.dutenews.com/n/article/10437199" target="_blank">读特</a></td></tr>
+        <tr><td><b>广西电网</b></td><td>突出"创一流"高线，新型电力系统全域示范</td><td>以点带面牵引全局；服务区域协调发展、扩大对外开放；无人机无线充电机巢推广 900 套</td><td><span class="tagpub">公开</span> <a href="https://www.toutiao.com/article/7597103931672396323/" target="_blank">工作会热议</a> · <a href="https://www.csg.cn/m/xwzx/nwyw/202603/t20260327_354338.html" target="_blank">科技创新会侧记</a></td></tr>
+        <tr><td><b>云南电网</b></td><td>超高比例新能源电力平衡，差异化创新样板</td><td>结合地域特色攻关超高比例新能源电力平衡；打造差异化创新样板</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/m/xwzx/nwyw/202603/t20260327_354338.html" target="_blank">科技创新会侧记</a></td></tr>
+        <tr><td><b>贵州电网</b></td><td>山区局数字化（"都匀范式"）</td><td>西部欠发达地区基层数字化赋能；取数 9.25 天→1 天、场景开发 3 月→7 天；覆盖 14 分县局 75 供电所</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-06/02/content_1562.htm" target="_blank">南网报·都匀范式</a></td></tr>
+        <tr><td><b>海南电网</b></td><td>海岛微网清洁能源体系、海南自贸港</td><td>海岛微网清洁能源体系；500 千伏主网架 2025-12 全面投产，迈入超高压时代</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/m/xwzx/nwyw/202603/t20260327_354338.html" target="_blank">科技创新会侧记</a></td></tr>
+      </table>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl">
+        <caption>表 3 · 市 / 县区 / 供电所级战略落地案例（举措 → 量化成效 → 来源）</caption>
+        <tr><th>层级</th><th>单位</th><th>战略举措</th><th>量化成效</th><th>来源</th></tr>
+        <tr><td>市级</td><td><b>广州供电局</b></td><td>超大城市构网模式、全球最大柔直背靠背；AI+电网规划；"一台区一网关"光伏管家</td><td>立项周期 ↓50%、日过载台区 ↓1087 台；2026 底 &gt;400 台区升级、可调控光伏 &gt;200MW</td><td><span class="tagpub">公开</span> <a href="https://www.xkb.com.cn/articleDetail/480147" target="_blank">新快报</a> · <a href="https://news.dayoo.com/gzrbrmt/202603/28/170628_54941639.htm" target="_blank">广州日报</a></td></tr>
+        <tr><td>市级</td><td><b>佛山供电局</b></td><td>"小数叶"全员数字素养体系；率先提出数字化供电所建设标准；市区所三级运营管控</td><td>自研"小而美"应用 800+；年省 4700 人天、效率 ↑80%；首批 5 个试点供电所</td><td><span class="tagpub">公开</span> <a href="https://csg.cn/xwzx/2025/2025yxcz/202501/t20250114_344793.html" target="_blank">csg.cn</a></td></tr>
+        <tr><td>市级</td><td><b>江门 / 中山</b></td><td>开平塘口无人机智能运维示范区；中山数字电网企业示范、电鸿物联示范区</td><td>机巢巡视 + 配网自动化覆盖率 100%；服务 327 家初创企业</td><td><span class="tagpub">公开</span> <a href="https://district.ce.cn/newarea/roll/202603/t20260304_2803277.shtml" target="_blank">中国经济网</a></td></tr>
+        <tr><td>县区级</td><td><b>都匀供电局（黔）</b></td><td>都匀范式 1.0→3.0；全域指挥中心；"业务为主、自主建设"</td><td>取数 9.25 天→1 天；场景开发 3 月→7 天；覆盖 14 分县局 75 供电所</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-06/02/content_1562.htm" target="_blank">南网报</a></td></tr>
+        <tr><td>县区级</td><td><b>海丰供电局（汕尾）</b></td><td>营配指挥中心 + 综合服务中心；对标"陈村范式"；首批梅陇/可塘/大湖试点</td><td>业务 286→100 项（压减 65%）；工单填报时长 ↓70%；7 大数字场景落地</td><td><span class="tagpub">公开</span> <a href="https://www.nfnews.com/content/LozB5AEjon.html" target="_blank">南方+</a></td></tr>
+        <tr><td>县区级</td><td><b>揭阳供电局</b></td><td>"AI+管理"；"陈村范式"试点流沙南供电所；党员骨干带头攻关</td><td>流沙南精简 206 项、优化 41 项；五星供电所"零的突破"；全局新增四星 7 个</td><td><span class="tagpub">公开</span> <a href="https://www.nfnews.com/content/mom4nW8Q6V.html" target="_blank">南方+</a></td></tr>
+        <tr><td>供电所</td><td><b>流沙南（揭阳）</b></td><td>业务事项精简 206 项、优化流程 41 项；党建直通车</td><td>获评"五星供电所"，全局首个</td><td><span class="tagpub">公开</span> <a href="https://www.nfnews.com/content/mom4nW8Q6V.html" target="_blank">南方+</a></td></tr>
+        <tr><td>供电所</td><td><b>甲良（都匀荔波）</b></td><td>副所长跨界自研业扩报装预警看板（云景低代码）</td><td>获数字化导师级称号，成为基层跨界代表</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-06/02/content_1562.htm" target="_blank">南网报</a></td></tr>
+        <tr><td>供电所</td><td><b>沿山（贵定）</b></td><td>挖掘驾驶员 / 物流管理岗潜能，开发"数字员工"</td><td>从"零需求"到多场景数字员工上线</td><td><span class="tagpub">公开</span> <a href="https://www.csg.cn/epaper/epaper/nfdwb/html/2026-06/02/content_1562.htm" target="_blank">南网报</a></td></tr>
+      </table>
+    </div>
+
   </div>
 </section>
 
