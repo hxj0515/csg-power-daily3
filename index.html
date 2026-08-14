@@ -119,7 +119,7 @@
       </div>
     </div>
     <div class="meta">
-      <span class="pill">站点更新：<b id="siteUpdated">2026-08-13</b></span>
+      <span class="pill">站点更新：<b id="siteUpdated">—</b></span>
       <span class="pill">覆盖单位：<b>总部 + 5 省网 + 2 市局 + 科研院/数字集团/储能/供应链/能源院</b></span>
       <span class="pill">监测领域：<b>电能质量·电力电子·智能电网·低压智能台区·配电网·服务类·物资工具类·应急工具类</b></span>
       <span class="pill">数据口径：<b>近 3 年（2023–2026）</b></span>
@@ -1016,7 +1016,7 @@
 
 <footer>
   <div class="wrap">
-    南方电网动态监测 · csg-power-daily3 ｜ 联网检索整理，每日更新 ｜ 数据口径 2023–2026 ｜ 最后构建 2026-08-13
+    南方电网动态监测 · csg-power-daily3 ｜ 联网检索整理，每日更新 ｜ 数据口径 2023–2026 ｜ 最后构建 <span id="buildDate">—</span>
   </div>
 </footer>
 
@@ -1034,9 +1034,9 @@
   // 每日动态加载
   document.getElementById('loadTime').textContent = new Date().toLocaleString('zh-CN');
   const FALLBACK = {
-    updated:"2026-08-13",
+    updated:"2026-08-14",
     entries:[
-      {date:"2026-08-13", note:"建站首期：整合组织架构、8大领域供应商生态、2025-2026近期动态与未来方向。", items:[
+      {date:"2026-08-14", note:"建站首期：整合组织架构、8大领域供应商生态、2025-2026近期动态与未来方向。", items:[
         {domain:"低压智能台区",title:"广东电网2026年低压智能电容器/10kV柱上无功补偿/电压监测仪/低压SVG框招",url:"https://cxwt.sc.csg.cn/zbhxrgs/1200430635.jhtml",summary:"配网过载/低电压动态清零任务驱动，电能质量品类首次成体系框招。"},
         {domain:"配电网",title:"2026年第一批配网设备招标：三星医疗中标3.21亿",url:"https://www.bidding.csg.cn/zbhxrgs/1200434376.jhtml",summary:"配网品类集中度提升，单包均值约3107万。"},
         {domain:"智能电网",title:"南网科研院发布TRSimTwin电力装备数字孪生软件",url:"https://csg.cn/xwzx/2026/2026gsyw/202605/t20260519_355258.html",summary:"国内首款AI+专业仿真数字孪生，国际领先。"},
@@ -1047,6 +1047,8 @@
     ]
   };
   function render(data){
+    document.getElementById('siteUpdated').textContent=data.updated||'—';
+    document.getElementById('buildDate').textContent=data.updated||new Date().toLocaleDateString('zh-CN');
     const box=document.getElementById('dailyList'); box.innerHTML='';
     (data.entries||[]).forEach(e=>{
       const head=document.createElement('div');
