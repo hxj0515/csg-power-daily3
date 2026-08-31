@@ -52,7 +52,7 @@ def main():
     run(["git", "config", "user.name", "csg-daily-bot"], check=False)
     run(["git", "config", "user.email", "bot@csg-daily.local"], check=False)
     # 远程带 token
-    remote = f"https://{token}@github.com/{REPO}.git"
+    remote = f"https://hxj0515:{token}@github.com/{REPO}.git"
     run(["git", "remote", "set-url", "origin", remote], check=False)
     run(["git", "add", "-A"])
     # 若无可提交则退出
